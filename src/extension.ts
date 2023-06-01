@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // handle filename and destination path
         const fileName = await vscode.window.showInputBox({
-          placeHolder: "Enter file name",
+          placeHolder: "Enter component name",
         });
         if (!fileName) {
           return;
@@ -46,7 +46,6 @@ export function activate(context: vscode.ExtensionContext) {
             return;
           }
         });
-
         // create files with content
         fs.writeFileSync(
           `${folderPath}/index.tsx`,
