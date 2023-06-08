@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.window.showErrorMessage(`Folder ${fileName} already exists`);
           return;
         }
-        fs.mkdir(folderPath, { recursive: true }, (err) => {
+        await fs.mkdir(folderPath, { recursive: true }, (err) => {
           if (err) {
             vscode.window.showErrorMessage(
               "An error occurred while creating the folder: " + err.message
@@ -47,20 +47,20 @@ export function activate(context: vscode.ExtensionContext) {
           }
         });
         // create files with content
-        fs.writeFileSync(
+        await fs.writeFileSync(
           `${folderPath}/index.tsx`,
           Buffer.from(index(fileName))
         );
-        fs.writeFileSync(
+        await fs.writeFileSync(
           `${folderPath}/${fileName}.tsx`,
           Buffer.from(component(fileName))
         );
-        fs.writeFileSync(`${folderPath}/${fileName}.scss`, Buffer.from(style));
-        fs.writeFileSync(
+        await fs.writeFileSync(`${folderPath}/${fileName}.scss`, Buffer.from(style));
+        await fs.writeFileSync(
           `${folderPath}/${fileName}.stories.tsx`,
           Buffer.from(story(fileName))
         );
-        fs.writeFileSync(
+        await fs.writeFileSync(
           `${folderPath}/${fileName}.test.tsx`,
           Buffer.from(test(fileName))
         );
