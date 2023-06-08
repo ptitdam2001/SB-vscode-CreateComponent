@@ -1,54 +1,71 @@
-export const index = (fileName: string) =>
-  `export {default as ${fileName} } from './${fileName}'`;
+import * as vscode from "vscode";
+import * as fs from "fs";
+import { component, index, story, style, test } from "./templates";
+import * as path from "path";
 
-export const component = (fileName: string) => `import React from 'react';
+export function activate(context: vscode.ExtensionContext) {
+  let disposable = vscode.commands.registerCommand(
+    "extension.createFile",
+    async () => {
+      try {
+        // Target folder
+        const folder = await vscode.window.showOpenDialog({
+          canSelectFiles: false,
+          canSelectFolders: true,
+          defaultUri: vscode.workspace.workspaceFolders?.[0]?.uri,
+        });
+        if (!folder) {
+          return;
+        }
 
-const ${fileName} = () => {
-  return (
-    <div>
-      {/* Content */}
-    </div>
+        // Input filename
+        const fileName = await vscode.window.showInputBox({
+          placeHolder: "Enter component name",
+        });
+        if (!fileName) {
+          return;
+        }
+
+        const folderPath = path.join(folder[0].path, fileName);
+
+        // Check if folder exists
+        if (!fs.existsSync(folderPath)) {
+          // Create folder
+          fs.mkdirSync(folderPath, { recursive: true });
+        } else {
+          vscode.window.showErrorMessage(`Folder ${fileName} already exists`);
+          return;
+        }
+
+        // Create files with content
+        fs.writeFileSync(path.join(folderPath, "index.tsx"), index(fileName));
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.tsx`),
+          component(fileName)
+        );
+        fs.writeFileSync(path.join(folderPath, `${fileName}.scss`), style);
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.stories.tsx`),
+          story(fileName)
+        );
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.test.tsx`),
+          test(fileName)
+        );
+
+        vscode.window.showInformationMessage(
+          `Component ${fileName} created successfully`
+        );
+      } catch (error) {
+        vscode.window.showErrorMessage(
+          "An error occurred while creating the file: " + (error as any).message
+        );
+      }
+    }
   );
-};
 
-export default ${fileName};
-`;
+  context.subscriptions.push(disposable);
+}
 
-export const style = "";
-
-export const story = (
-  fileName: string
-) => `import type { Meta, StoryObj } from '@storybook/react';
-import ${fileName} from './${fileName}';
-
-const meta = {
-    title: '${fileName}',
-    component: ${fileName},
-    tags: ['autodocs'],
-} satisfies Meta<typeof ${fileName}>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {
-    args: {},
-};
-`;
-
-export const test = (fileName: string) => `import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
-import ${fileName} from './${fileName}';
-
-describe('${fileName}', () => {
-    it('is displaying component', async () => {
-        // Given
-        render(<${fileName} />);
-
-        // When
-        // Then
-        expect(true).toBeTruthy();
-    });
-});
-`;
+// This method is called when your extension is deactivated
+export function deactivate() {}

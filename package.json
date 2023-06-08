@@ -1,8 +1,8 @@
 {
-  "name": "newcomponent",
-  "displayName": "NewComponent",
+  "name": "create-component",
+  "displayName": "CreateComponent",
   "description": "create a template based component folder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.78.0"
   },
