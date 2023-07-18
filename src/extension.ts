@@ -56,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
         );
       } catch (error) {
         vscode.window.showErrorMessage(
-          "An error occurred while creating the file: " + (error as any).message
+          "/!\\ An error occurred while creating the file: " + (error as any).message
         );
       }
     }

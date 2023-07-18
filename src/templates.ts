@@ -1,4 +1,4 @@
-export const index = (fileName: string) => `export { default as ${fileName} } from './${fileName}';`;
+export const index = (fileName: string) => `export \{ default as ${fileName} \} from './${fileName}';\n`;
 
 export const component = (fileName: string) => `// Copyright (c) StrangeBee 2023
 
