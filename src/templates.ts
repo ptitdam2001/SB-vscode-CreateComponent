@@ -1,20 +1,20 @@
-export const index = (fileName: string) =>
-  `export { default as ${fileName} } from './${fileName}'`;
+export const index = (fileName: string) => `export { default as ${fileName} } from './${fileName}';`;
 
-export const component = (fileName: string) => `import React from 'react';
+export const component = (fileName: string) => `// Copyright (c) StrangeBee 2023
 
-const ${fileName} = () => {
-  return (
-    <div>
-      {/* Content */}
-    </div>
-  );
-};
+import { memo } from 'react';
 
-export default ${fileName};
+const ${fileName} = () => (
+    <div>{/* Content */}</div>
+);
+
+export default memo(${fileName});
+
 `;
 
-export const style = "";
+export const style = `// Copyright (c) StrangeBee 2023
+
+`;
 
 export const story = (
   fileName: string
@@ -36,15 +36,16 @@ export const Default: Story = {
 `;
 
 export const test = (fileName: string) => `import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
+import { render, screen } from '@Testing';
+import { describe, it, expect, vi } from 'vitest';
+
 import ${fileName} from './${fileName}';
 
 describe('${fileName}', () => {
     it('is displaying component', async () => {
-        render(<${fileName} />);
-        expect(true).toBeTruthy();
+        const { container } = render(<${fileName} />);
+        expect(container).toBeInTheDocument();
     });
 });
+
 `;
