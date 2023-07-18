@@ -48,7 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
         });
         // create files with content
         await fs.writeFileSync(
-          `${folderPath}/index.tsx`,
+          `${folderPath}/index.ts`,
           Buffer.from(index(fileName))
         );
         await fs.writeFileSync(
