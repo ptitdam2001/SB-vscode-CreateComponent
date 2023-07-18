@@ -43,5 +43,7 @@
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2",
     "@vscode/test-electron": "^2.3.0"
-  }
+  },
+  "author": "Damien Suhard",
+  "license": "GPL"
 }
