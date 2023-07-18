@@ -1,14 +1,12 @@
 {
-  "name": "create-component",
+  "name": "createcomponent",
   "displayName": "CreateComponent",
   "description": "create a template based component folder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.78.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {

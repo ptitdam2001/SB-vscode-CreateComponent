@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { component, index, story, style, test } from "./templates/index.ts";
+import { component, index, story, style, test } from "./templates";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
