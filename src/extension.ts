@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { component, index, story, style, test } from "./templates";
+import { component, index, story, style, test } from "./templates/index.ts";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
@@ -55,7 +55,10 @@ export function activate(context: vscode.ExtensionContext) {
           `${folderPath}/${fileName}.tsx`,
           Buffer.from(component(fileName))
         );
-        await fs.writeFileSync(`${folderPath}/${fileName}.scss`, Buffer.from(style));
+        await fs.writeFileSync(
+          `${folderPath}/${fileName}.scss`,
+          Buffer.from(style)
+        );
         await fs.writeFileSync(
           `${folderPath}/${fileName}.stories.tsx`,
           Buffer.from(story(fileName))
