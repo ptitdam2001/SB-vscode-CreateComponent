@@ -47,23 +47,24 @@ export function activate(context: vscode.ExtensionContext) {
           }
         });
         // create files with content
-        await fs.writeFileSync(
+        fs.writeFileSync(
           `${folderPath}/index.ts`,
           Buffer.from(index(fileName))
         );
-        await fs.writeFileSync(
+
+        fs.writeFileSync(
           `${folderPath}/${fileName}.tsx`,
           Buffer.from(component(fileName))
         );
-        await fs.writeFileSync(
+        fs.writeFileSync(
           `${folderPath}/${fileName}.scss`,
           Buffer.from(style)
         );
-        await fs.writeFileSync(
+        fs.writeFileSync(
           `${folderPath}/${fileName}.stories.tsx`,
           Buffer.from(story(fileName))
         );
-        await fs.writeFileSync(
+        fs.writeFileSync(
           `${folderPath}/${fileName}.test.tsx`,
           Buffer.from(test(fileName))
         );
@@ -73,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
         );
       } catch (error) {
         vscode.window.showErrorMessage(
-          "An error occurred while creating the file: " + (error as any).message
+          "/!\\ An error occurred while creating the file: " + (error as any).message
         );
       }
     }

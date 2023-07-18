@@ -2,9 +2,9 @@
   "name": "createcomponent",
   "displayName": "CreateComponent",
   "description": "create a template based component folder",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
-    "vscode": "^1.78.0"
+    "vscode": "^1.80.0"
   },
   "categories": ["Other"],
   "activationEvents": [],
