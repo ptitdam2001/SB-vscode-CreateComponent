@@ -29,14 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // check if folder already exists
         if (!fs.existsSync(folderPath)) {
-          fs.mkdirSync(folderPath, { recursive: true }, (err) => {
-            if (err) {
-              vscode.window.showErrorMessage(
-                "An error occurred while creating the folder: " + err.message
-              );
-              return;
-            }
-          });
+          fs.mkdirSync(folderPath, { recursive: true });
         } else {
           vscode.window.showErrorMessage(`Folder ${fileName} already exists`);
           return;
