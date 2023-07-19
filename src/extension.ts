@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import { component, index, story, style, test } from "./templates";
+import * as path from "path";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
@@ -8,15 +9,10 @@ export function activate(context: vscode.ExtensionContext) {
     async () => {
       try {
         // handle target folder selection
-        const workspaceFolders = vscode.workspace.workspaceFolders;
-        const defaultUri = workspaceFolders
-          ? workspaceFolders[0].uri
-          : undefined;
-
         const folder = await vscode.window.showOpenDialog({
           canSelectFiles: false,
           canSelectFolders: true,
-          defaultUri,
+          defaultUri: vscode.workspace.workspaceFolders?.[0]?.uri,
         });
         if (!folder) {
           return;
@@ -29,43 +25,37 @@ export function activate(context: vscode.ExtensionContext) {
         if (!fileName) {
           return;
         }
-        const folderPath = `${folder[0].path}/${fileName}`;
+        const folderPath = path.join(folder[0].path, fileName);
 
-        // handle files content
-
-        // create component directory
-        if (fs.existsSync(folderPath)) {
+        // check if folder already exists
+        if (!fs.existsSync(folderPath)) {
+          fs.mkdirSync(folderPath, { recursive: true }, (err) => {
+            if (err) {
+              vscode.window.showErrorMessage(
+                "An error occurred while creating the folder: " + err.message
+              );
+              return;
+            }
+          });
+        } else {
           vscode.window.showErrorMessage(`Folder ${fileName} already exists`);
           return;
         }
-        await fs.mkdir(folderPath, { recursive: true }, (err) => {
-          if (err) {
-            vscode.window.showErrorMessage(
-              "An error occurred while creating the folder: " + err.message
-            );
-            return;
-          }
-        });
+
         // create files with content
-        await fs.writeFileSync(
-          `${folderPath}/index.tsx`,
-          Buffer.from(index(fileName))
+        fs.writeFileSync(path.join(folderPath, "index.tsx"), index(fileName));
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.tsx`),
+          component(fileName)
         );
-        await fs.writeFileSync(
-          `${folderPath}/${fileName}.tsx`,
-          Buffer.from(component(fileName))
+        fs.writeFileSync(path.join(folderPath, `${fileName}.scss`), style);
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.stories.tsx`),
+          story(fileName)
         );
-        await fs.writeFileSync(
-          `${folderPath}/${fileName}.scss`,
-          Buffer.from(style)
-        );
-        await fs.writeFileSync(
-          `${folderPath}/${fileName}.stories.tsx`,
-          Buffer.from(story(fileName))
-        );
-        await fs.writeFileSync(
-          `${folderPath}/${fileName}.test.tsx`,
-          Buffer.from(test(fileName))
+        fs.writeFileSync(
+          path.join(folderPath, `${fileName}.test.tsx`),
+          test(fileName)
         );
 
         vscode.window.showInformationMessage(
