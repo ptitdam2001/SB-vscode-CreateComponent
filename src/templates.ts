@@ -4,6 +4,8 @@ export const component = (fileName: string) => `// Copyright (c) StrangeBee 2023
 
 import { memo } from 'react';
 
+import './${fileName}.scss';
+
 const ${fileName} = () => (
     <div>{/* Content */}</div>
 );
