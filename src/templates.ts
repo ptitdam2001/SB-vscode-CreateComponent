@@ -43,11 +43,23 @@ import { describe, it, expect, vi } from 'vitest';
 
 import ${fileName} from './${fileName}';
 
+/**
+ * Mock Fontawesome icon
+ * @todo to remove if your component does not use icons
+ */
+vi.mock('@fortawesome/react-fontawesome', async (importOriginal) => {
+    const mod = await importOriginal<any>();
+
+    return {
+        ...mod,
+        FontAwesomeIcon: (props: { icon: string }) => <span className={props.icon} data-testid={props.icon} />,
+    };
+});
+
 describe('${fileName}', () => {
     it('is displaying component', async () => {
         const { container } = render(<${fileName} />);
         expect(container).toBeInTheDocument();
     });
 });
-
 `;

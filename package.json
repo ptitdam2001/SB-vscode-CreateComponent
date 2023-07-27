@@ -2,7 +2,7 @@
   "name": "createcomponent",
   "displayName": "CreateComponent",
   "description": "create a template based component folder",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -45,5 +45,6 @@
     "@vscode/test-electron": "^2.3.0"
   },
   "author": "Damien Suhard",
-  "license": "GPL"
+  "license": "GPL",
+  "repository": "https://github.com/ptitdam2001/SB-vscode-CreateComponent"
 }
