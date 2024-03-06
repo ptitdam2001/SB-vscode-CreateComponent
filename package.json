@@ -2,7 +2,7 @@
   "name": "createcomponent",
   "displayName": "CreateComponent",
   "description": "create a template based component folder",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -12,8 +12,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.createFile",
+        "command": "extension.createComponent",
         "title": "Create Component"
+      },
+      {
+        "command": "extension.createHook",
+        "title": "Create Hook"
       }
     ]
   },

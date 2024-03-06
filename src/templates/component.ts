@@ -1,20 +1,27 @@
-export const index = (fileName: string) => `export \{ default as ${fileName} \} from './${fileName}';\n`;
+const currentYear = new Date().getFullYear();
 
-export const component = (fileName: string) => `// Copyright (c) StrangeBee 2023
+export const index = (fileName: string) =>
+  `export \{ default as ${fileName} \} from './${fileName}';\n`;
+
+export const component = (
+  fileName: string
+) => `// Copyright (c) StrangeBee ${currentYear}
 
 import { memo } from 'react';
+import { WithTestIdProps } from '@Common/types';
 
 import './${fileName}.scss';
 
-const ${fileName} = () => (
-    <div>{/* Content */}</div>
-);
+interface ${fileName}Props extends WithTestIdProps {}
+
+const ${fileName} = ({ 'data-testid': testId }: ${fileName}Props) => <div data-testid={testId}>{/* Content */}</div>;
 
 export default memo(${fileName});
-
 `;
 
-export const style = `// Copyright (c) StrangeBee 2023
+export const style = `/*
+ * Copyright (c) StrangeBee ${currentYear}
+ */
 
 `;
 
@@ -37,7 +44,11 @@ export const Default: Story = {
 };
 `;
 
-export const test = (fileName: string) => `import React from 'react';
+export const test = (
+  fileName: string
+) => `// Copyright (c) StrangeBee ${currentYear}
+
+import React from 'react';
 import { render, screen } from '@Testing';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -60,6 +71,8 @@ describe('${fileName}', () => {
     it('is displaying component', async () => {
         const { container } = render(<${fileName} />);
         expect(container).toBeInTheDocument();
+
+        screen.debug();
     });
 });
 `;
